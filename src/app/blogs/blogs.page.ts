@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BlogApi } from '../blog-api.service';
 
 @Component({
   selector: 'app-tab1',
@@ -7,10 +8,24 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
-  constructor() {}
+  public blogs: any;
 
-  sayHello(){
-    console.log("Hello, World");
+  constructor(private blogApi: BlogApi) {
+    this.getBlogs();
+  }
+
+  getBlogs(){
+    console.log("Getting Blogs...");
+    this.blogApi.getBlogs().then(data => this.blogs = data);
+  }
+
+  ionViewDidLoad(){
+    console.log("Getting Blogs...");
+    this.blogApi.getBlogs().then(data => this.blogs = data);
+  }
+
+  itemTapped($event, blog){
+    this.blogApi.likeBlogPost();
   }
 
 }
