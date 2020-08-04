@@ -1,6 +1,13 @@
 import { Component } from '@angular/core';
 import { BlogApi } from '../blog-api.service';
 
+type Blog = {
+  id: string
+  content: string
+  image: any
+  likes: number   
+}
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'blogs.page.html',
@@ -16,16 +23,16 @@ export class Tab1Page {
 
   getBlogs(){
     console.log("Getting Blogs...");
+
     this.blogApi.getBlogs().then(data => this.blogs = data);
+
   }
 
   ionViewDidLoad(){
-    console.log("Getting Blogs...");
-    this.blogApi.getBlogs().then(data => this.blogs = data);
+    this.getBlogs();
   }
 
-  itemTapped($event, blog){
-    this.blogApi.likeBlogPost();
+  itemTapped($event, blog: Blog){
+    this.blogApi.likeBlogPost(blog.id);
   }
-
 }

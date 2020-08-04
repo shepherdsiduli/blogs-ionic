@@ -1,48 +1,31 @@
 import { HttpClient, HttpHeaders} from '@angular/common/http'
 import { Injectable } from '@angular/core';
-import { from, Observable } from 'rxjs';
 import { compileFunction } from 'vm';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable()
 export class BlogApi {
 
   private baseUrl = 'http://localhost:8080';
 
-  // Http Options
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json; ; charset=utf-8',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,POST,PATCH,DELETE,PUT,OPTIONS',
-      'Access-Control-Allow-Headers' : 'Origin, X-Requested-With, Content-Type, Accept',
-      'Accept':'application/json',
-      'X-Requested-With': 'XMLHttpRequest',
-    })
-  }
+  private blogsData: any = {}
 
   constructor(public http: HttpClient) {
    }
 
    getBlogs(){
-      return new Promise(resolve => {
-       console.log("get blogs");
-
-     //  this.http.get(`${this.baseUrl}`, { headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:8100' } });
-       this.http.get(`${this.baseUrl}/get`, this.httpOptions).subscribe(res => console.log(res));
-     }) 
+      return new Promise(resolve => this.http.get(`${this.baseUrl}/get` ).subscribe(res => resolve(res))) 
    }
 
-   likeBlogPost(){
-    return new Promise(resolve => {
-      console.log("like blog");
-      this.http.get(`${this.baseUrl}/like`).subscribe(res => console.log(res));
-    })
+   likeBlogPost(id: string){
+    console.log('liking blog ' + id);
+     return new Promise(resolve => this.http.post(`${this.baseUrl}/like?id=${id}`, null).subscribe(res => console.log("res", res))) 
    }
 
-   addBlog(){
+   addBlog(content: string){
     return new Promise(resolve => {
       console.log("add blog");
-      this.http.get(`${this.baseUrl}/create`).subscribe(res => console.log(res));
+      return new Promise(resolve => this.http.post(`${this.baseUrl}/like?content=${content}`, null).subscribe(res => console.log("res", res))) 
     })
    }
 }
