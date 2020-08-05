@@ -19,13 +19,19 @@ export class BlogApi {
 
    likeBlogPost(id: string){
     console.log('liking blog ' + id);
-     return new Promise(resolve => this.http.post(`${this.baseUrl}/like?id=${id}`, null).subscribe(res => console.log("res", res))) 
+     return new Promise(resolve => this.http.post(`${this.baseUrl}/like?id=${id}`, null).subscribe((res)=>resolve(res))) 
    }
 
    addBlog(content: string){
-    return new Promise(resolve => {
-      console.log("add blog");
-      return new Promise(resolve => this.http.post(`${this.baseUrl}/like?content=${content}`, null).subscribe(res => console.log("res", res))) 
-    })
+    return new Promise(resolve => this.http.put(`${this.baseUrl}/create?content=${content}`, null).subscribe((res)=>resolve(res)))
+   }
+
+   addDummyBlogs(){
+    console.log('adding batch dummy blogs ');
+    return new Promise(resolve => this.http.post(`${this.baseUrl}/initialize`, null).subscribe((res)=>resolve(res)));
+   }
+
+   deleteBlog(id: string){
+
    }
 }

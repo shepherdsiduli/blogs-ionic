@@ -16,16 +16,15 @@ type Blog = {
 export class Tab1Page {
 
   public blogs: any;
+  public blogInput: string;
 
   constructor(private blogApi: BlogApi) {
     this.getBlogs();
   }
 
   getBlogs(){
-    console.log("Getting Blogs...");
-
+    console.log("fetching Blogs...");
     this.blogApi.getBlogs().then(data => this.blogs = data);
-
   }
 
   ionViewDidLoad(){
@@ -33,6 +32,28 @@ export class Tab1Page {
   }
 
   itemTapped($event, blog: Blog){
-    this.blogApi.likeBlogPost(blog.id);
+    this.likeBlog(blog.id);
+  }
+
+  async likeBlog(id: string){
+    console.log("liking Blog...");
+    await this.blogApi.likeBlogPost(id);
+    await this.getBlogs();
+  }
+
+  async addNewBlog(content: string){
+    if(content == null || content.trim() == ''){
+      console.log("invalid input...");
+      return;
+    }
+    console.log("adding new Blog..." + content);
+    await this.blogApi.addBlog(content);
+    await this.getBlogs();
+    this.blogInput = ""
+  }
+
+  async addDummyData(){
+    await this.blogApi.addDummyBlogs();
+    await this.getBlogs();
   }
 }

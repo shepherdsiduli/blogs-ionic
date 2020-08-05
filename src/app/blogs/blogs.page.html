@@ -4,9 +4,9 @@
       Blogs
     </ion-title>
     <ion-avatar slot="end">
-      <ion-icon name="add-circle"> </ion-icon>
-      <ion-item-option (click)="unread(item)">Add blog</ion-item-option>
+      <ion-icon name="add-circle" (click)="addDummyData()"> </ion-icon>
     </ion-avatar>
+
   </ion-toolbar>
 </ion-header>
 
@@ -17,12 +17,21 @@
     </ion-toolbar>
   </ion-header>
 
+ <ion-item>
+      <ion-textarea rows="1" maxLength="500" placeholder="Type blog here..."
+        [(ngModel)]="blogInput">
+      </ion-textarea>
+      <ion-item-option (click)="addNewBlog(blogInput)">Add</ion-item-option>
+  </ion-item> 
+
   <ion-list inset *ngFor="let item of blogs">
     <ion-item (click) = "itemTapped($event, item)">
       <ion-avatar slot="end">
         <ion-icon name="color-wand"> </ion-icon>
       </ion-avatar>
       <ion-label>{{item.content}}</ion-label>
+
+      <ion-label >{{item.likes}} likes</ion-label>
     </ion-item>
 </ion-list>
 
